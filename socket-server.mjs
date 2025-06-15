@@ -3,10 +3,13 @@ import { Server } from 'socket.io';
 import http from 'http';
 
 const server = http.createServer();
+const port = process.env.PORT || 3001;
+const host = '0.0.0.0';
 const io = new Server(server, {
   cors: {
-    origin: '*',
-  },
+    origin: 'https://chat-lab-green.vercel.app', // your frontend
+    methods: ['GET', 'POST'],
+  }
 });
 
 // Store user socket mappings (email -> socketId)
@@ -58,6 +61,10 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3001, () => {
-  console.log('Socket server running on http://localhost:3001');
+
+console.log(port, host,"port, host")
+
+
+server.listen(port, host, () => {
+  console.log(`✅ Socket server running at http://${host}:${port}`);
 });
